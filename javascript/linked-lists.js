@@ -5,7 +5,7 @@ function createNode(value) {
     }
 }
 
-function createLinkedList() {
+export default function createLinkedList() {
     return {
         head: null,
         tail: null,
@@ -151,14 +151,3 @@ function createLinkedList() {
         },
     }
 }
-
-const list = createLinkedList()
-const empty = createLinkedList()
-
-list.append(5)
-list.append(10)
-list.append(1)
-list.prepend(0)
-console.log(list.toString())
-list.removeAt(3)
-console.log(list.toString(), list.size, list.head, "tail: ", list.tail)
