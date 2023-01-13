@@ -96,6 +96,59 @@ function createLinkedList() {
             }
             return (string += null)
         },
+
+        insertAt(value, index) {
+            if (index > this.size) {
+                console.log("Index exceeds list size")
+                return null
+            }
+
+            if (index === 0) {
+                this.prepend(value)
+                return
+            }
+            if (index === this.size) {
+                this.append(value)
+                return
+            }
+
+            let prev = null
+            let curr = this.head
+            const node = createNode(value)
+            for (let i = 0; i < index; i++) {
+                prev = curr
+                curr = curr.next
+            }
+            prev.next = node
+            node.next = curr
+            this.size++
+        },
+
+        removeAt(index) {
+            if (index >= this.size) {
+                console.log("Index exceeds list size")
+                return null
+            }
+
+            if (index === this.size - 1) {
+                return this.pop()
+            }
+
+            let removeNode = this.head
+            if (index === 0) {
+                this.head = removeNode.next
+            } else {
+                let prev = null
+                for (let i = 0; i < index; i++) {
+                    prev = removeNode
+                    removeNode = removeNode.next
+                }
+                prev.next = removeNode.next
+            }
+
+            this.size--
+            return removeNode
+        },
     }
 }
 
@@ -106,6 +159,6 @@ list.append(5)
 list.append(10)
 list.append(1)
 list.prepend(0)
-
 console.log(list.toString())
-console.log(empty.find(1))
+list.removeAt(3)
+console.log(list.toString(), list.size, list.head, "tail: ", list.tail)
