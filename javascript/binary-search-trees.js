@@ -43,18 +43,23 @@ class BST {
     }
 
     find(value, node = this.root) {
-        if (!node || node.data === value) return node
+        if (!node) return "Node not found"
+        if (value === node.data) return node
 
         if (value < node.data) return this.find(value, node.left)
         else return this.find(value, node.right)
     }
 
-    traverse(value) {
-        return
-    }
+    levelOrder() {
+        const queue = [this.root]
 
-    #traverse(value, root) {
-        return
+        while (queue.length) {
+            const node = queue.shift()
+
+            if (node.left) queue.push(node.left)
+            if (node.right) queue.push(node.right)
+            console.log(node)
+        }
     }
 
     prettyPrint(node = this.root, prefix = "", isLeft = true) {
@@ -84,7 +89,7 @@ const test = (() => {
     tree.insert(-1)
     tree.insert(0)
     tree.prettyPrint()
-    console.log(tree.find(2))
+    tree.levelOrder()
 })()
 
 export default test
