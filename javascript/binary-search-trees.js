@@ -43,15 +43,15 @@ class BST {
     }
 
     delete(data) {
-        return this.#delete(data, this.root)
+        this.#delete(data, this.root)
     }
 
     #delete(data, node) {
         if (!node) return null
 
         if (data < node.data) node.left = this.#delete(data, node.left)
-        if (data > node.data) node.right = this.#delete(data, node.right)
-        if (data === node.data) {
+        else if (data > node.data) node.right = this.#delete(data, node.right)
+        else {
             node = this.#getSuccessor(node)
         }
         return node
@@ -59,14 +59,13 @@ class BST {
 
     #getSuccessor(node) {
         if (node.left && node.right) {
-            const successor = this.#getMin(node.right)
-            node.data = successor.data
-            node.right = this.#delete(successor.data, node.right)
+            const inorderSuccessor = this.#getMin(node.right)
+            node.data = inorderSuccessor.data
+            node.right = this.#delete(inorderSuccessor.data, node.right)
             return node
         } else {
-            const successor = node.left || node.right
-            node = null
-            return successor
+            node = node.left || node.right
+            return node
         }
     }
 
@@ -214,19 +213,16 @@ class BST {
 
 const test = (() => {
     const array = [1, 0, 1, 2, 3, 7, 5, 3, 12, 11, 4]
-    const array2 = [10, 3, 4]
     const tree = new BST(array)
-    const test = new BST(array2)
     tree.insert(10)
     tree.insert(0)
-    test.insert(-1)
-    test.insert(-3)
     tree.prettyPrint()
-    console.log(tree.delete(11))
-    tree.prettyPrint()
-    tree.rebalance()
+    tree.delete(11)
     tree.prettyPrint()
     console.log(tree.isBalanced())
+    tree.rebalance()
+    console.log(tree.isBalanced())
+    tree.prettyPrint()
 })()
 
 export default test
