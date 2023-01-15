@@ -6,7 +6,7 @@ class Node {
     }
 }
 
-class BST {
+export default class BST {
     constructor(array) {
         const sortedArray = [...new Set(array)].sort((a, b) => a - b)
         this.root = this.buildTree(sortedArray)
@@ -93,7 +93,8 @@ class BST {
             if (node.right) queue.push(node.right)
 
             if (cb) {
-                cb(node)
+                const item = cb(node)
+                if (item !== null || item !== undefined) bfsList.push(item)
             } else {
                 bfsList.push(node)
             }
@@ -106,7 +107,8 @@ class BST {
 
         this.inorder(cb, node.left, list)
         if (cb) {
-            cb(node)
+            const item = cb(node)
+            if (item !== null || item !== undefined) list.push(item)
         } else {
             list.push(node)
         }
@@ -118,8 +120,10 @@ class BST {
     preorder(cb, node = this.root, list = []) {
         if (!node) return
 
-        if (cb) cb(node)
-        else list.push(node)
+        if (cb) {
+            const item = cb(node)
+            if (item !== null || item !== undefined) list.push(item)
+        } else list.push(node)
         this.preorder(cb, node.left, list)
         this.preorder(cb, node.right, list)
 
@@ -131,8 +135,10 @@ class BST {
 
         this.postorder(cb, node.left, list)
         this.postorder(cb, node.right, list)
-        if (cb) cb(node)
-        else list.push(node)
+        if (cb) {
+            const item = cb(node)
+            if (item !== null || item !== undefined) list.push(item)
+        } else list.push(node)
 
         if (list.length > 0) return list
     }
@@ -210,19 +216,3 @@ class BST {
         }
     }
 }
-
-const test = (() => {
-    const array = [1, 0, 1, 2, 3, 7, 5, 3, 12, 11, 4]
-    const tree = new BST(array)
-    tree.insert(10)
-    tree.insert(0)
-    tree.prettyPrint()
-    tree.delete(11)
-    tree.prettyPrint()
-    console.log(tree.isBalanced())
-    tree.rebalance()
-    console.log(tree.isBalanced())
-    tree.prettyPrint()
-})()
-
-export default test
